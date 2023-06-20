@@ -8,7 +8,7 @@
   - `ng serve --configuration=william` for William
   - `ng serve --configuration=emma` for Emma
   - `ng serve` will default to Steve
-- navigate to `http://localhost:4200/` (or whatever port the CLI may point to if 4200 is taken)
+- navigate to `http://localhost:4200/` (or whatever port the CLI may point to if 4200 is in use)
 - the app will automatically reload if you change any of the source files
 
 ## Notable features
