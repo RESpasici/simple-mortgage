@@ -24,6 +24,8 @@
 - view page with update/remove options
 - adding state management
 
+## Technologies used
+
 - [Angular framework](https://angular.io/)
 - [Angular CLI](https://github.com/angular/angular-cli)
 - [Angular Material](https://material.angular.io/)
