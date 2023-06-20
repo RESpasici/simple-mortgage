@@ -1,0 +1,187 @@
+<div id="mortgageSelect" *ngIf="selectScreen">
+  <h1>Pick your flow</h1>
+  <mat-radio-group
+    aria-labelledby="flowLabel"
+    class="flow-group"
+    [(ngModel)]="flowSelect"
+  >
+    <mat-radio-button class="flow-radio-button" value="purchase">
+      Purchase
+    </mat-radio-button>
+    <mat-radio-button class="flow-radio-button" value="switch">
+      Switch
+    </mat-radio-button>
+    <mat-radio-button class="flow-radio-button" value="refinance">
+      Refinance
+    </mat-radio-button>
+  </mat-radio-group>
+  <br />
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="selectFlow()"
+    class="buttons"
+  >
+    Next
+  </button>
+</div>
+
+<mat-stepper
+  *ngIf="!selectScreen"
+  class="journey-stepper"
+  [orientation]="(stepperOrientation | async)!"
+  [linear]="true"
+  #stepper
+>
+  <mat-step [stepControl]="personalDetailsFormGroup" label="Personal details">
+    <form [formGroup]="personalDetailsFormGroup">
+      <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <input
+          matInput
+          placeholder="Last name, First name"
+          formControlName="name"
+          required
+        />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Personal number</mat-label>
+        <input
+          matInput
+          placeholder="Identification/Passport"
+          formControlName="personalNumber"
+          required
+        />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Birth date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="birthDate"
+          formControlName="birthDate"
+          required
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="birthDate"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #birthDate></mat-datepicker>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step
+    [stepControl]="employmentDetailsFormGroup"
+    label="Employment details"
+  >
+    <form [formGroup]="employmentDetailsFormGroup">
+      <mat-form-field appearance="fill">
+        <mat-label>Company</mat-label>
+        <mat-select formControlName="company">
+          <mat-option value="finastra"> Finastra </mat-option>
+          <mat-option value="wrong"> A wrong choice </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="timeFrameFormGroup" label="Time frame">
+    <form [formGroup]="timeFrameFormGroup">
+      <h2>When are you looking for a refinance?</h2>
+      <h3>Help us understand the timeframe</h3>
+      <mat-label>I'm looking for a refinance in the next</mat-label>
+
+      <mat-radio-group formControlName="timeFrame">
+        <mat-radio-button value="1-3 months"> 1-3 Months </mat-radio-button>
+        <mat-radio-button value="3-6 months"> 3-6 Months </mat-radio-button>
+        <mat-radio-button value="6-12 months"> 6-12 Months </mat-radio-button>
+      </mat-radio-group>
+
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step
+    [stepControl]="propertyDetailsFormGroup"
+    label="Property details"
+    *ngIf="isSwitchOrRefinance"
+  >
+    <form [formGroup]="propertyDetailsFormGroup">
+      <mat-form-field appearance="fill">
+        <mat-label>Purchase price</mat-label>
+        <input
+          matInput
+          placeholder="10000$"
+          formControlName="purchasePrice"
+          type="number"
+          min="1"
+          step="any"
+        />
+        <mat-icon matPrefix>attach_money</mat-icon>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Down payment amount</mat-label>
+        <input
+          matInput
+          placeholder="10000$"
+          formControlName="downPaymentAmount"
+          type="number"
+          min="1"
+          step="any"
+        />
+        <mat-icon matPrefix>attach_money</mat-icon>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step
+    [stepControl]="purchaseDetailsFormGroup"
+    label="Purchase details"
+    *ngIf="isPurchaseOrRefinance"
+  >
+    <form [formGroup]="purchaseDetailsFormGroup">
+      <h2>Tell us about this purchase</h2>
+      <mat-checkbox formControlName="cashTransaction"
+        >Paying full cash</mat-checkbox
+      >
+      <mat-form-field appearance="fill" id="email">
+        <mat-label>Real estate agency email</mat-label>
+        <input
+          type="email"
+          matInput
+          formControlName="realEstateAgencyEmail"
+          placeholder="Ex. pat@example.com"
+        />
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <h1>You are now done.</h1>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="submit()"
+      class="buttons"
+    >
+      Submit
+    </button>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+    </div>
+  </mat-step>
+</mat-stepper>
